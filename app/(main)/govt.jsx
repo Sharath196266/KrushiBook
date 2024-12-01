@@ -28,8 +28,8 @@ const GovtServices = () => {
 
   const navigation = useNavigation();
 
-  const API_KEY = "579b464db66ec23bdd000001d5502053b72f4aa6741ce090bb507d47";
-  const API_URL = `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=${API_KEY}&format=json&limit=1000`;
+  const API_KEY_GOVT = "579b464db66ec23bdd000001d5502053b72f4aa6741ce090bb507d47";
+  const API_URL = `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=${API_KEY_GOVT}&format=json&limit=1000`;
 
   const govtWebsites = [
     { title: "Ministry of Agriculture", url: "https://agricoop.nic.in/" },
@@ -76,7 +76,7 @@ const GovtServices = () => {
     setLoading(true);
     let allData = [];
     let offset = 0;
-    const limit = 1000; // Fetch in batches of 1000 records
+    const limit = 100; // Fetch in batches of 1000 records
     
     try {
       while (true) {

@@ -107,8 +107,7 @@ const doctor = () => {
       let prompt = userInput;
 
       try {
-        const result = await model.generateContent(prompt);
-
+        const result = await model.generateContent(prompt+". provide details in kannada");
         if (result && result.response) {
           setBotResponse(result.response.text || "No response from Gemini");
         } else {

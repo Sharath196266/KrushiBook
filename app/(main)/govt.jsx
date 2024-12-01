@@ -14,6 +14,7 @@ import { theme } from '../../constants/theme';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigation } from '@react-navigation/native';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 const GovtServices = () => {
   const [states, setStates] = useState([]);
@@ -117,6 +118,7 @@ const GovtServices = () => {
   const currentDate = priceData.length > 0 ? priceData[0].arrival_date : "N/A";
 
   return (
+    <ErrorBoundary>
     <ScreenWrapper>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backButtonText}>← Back</Text>
@@ -140,7 +142,7 @@ const GovtServices = () => {
                 style={styles.dropdown}
                 scrollViewProps={{ nestedScrollEnabled: true }}
                 maxHeight={200}
-                zIndex={stateDropdownOpen ? 1000 : 0} // Ensure dropdown is on top when open
+                zIndex={stateDropdownOpen ? 1000 : 1} // Ensure dropdown is on top when open
               />
               
               <DropDownPicker
@@ -154,7 +156,7 @@ const GovtServices = () => {
                 style={styles.dropdown}
                 scrollViewProps={{ nestedScrollEnabled: true }}
                 maxHeight={200}
-                zIndex={commodityDropdownOpen ? 1000 : 0} // Ensure dropdown is on top when open
+                zIndex={commodityDropdownOpen ? 1000 : 1} // Ensure dropdown is on top when open
               />
             </View>
 
@@ -221,6 +223,7 @@ const GovtServices = () => {
         keyExtractor={(item, index) => `container-${index}`}
       />
     </ScreenWrapper>
+    </ErrorBoundary>
   );
 };
 

@@ -10,10 +10,7 @@
     "web": "expo start --web",
     "build": "react-scripts build",
     "test": "jest --watchAll",
-    "lint": "expo lint",
-    "web-build": "npx expo export",
-    "predeploy": "npm run web-build",
-    "deploy": "gh-pages -d dist"
+    "lint": "expo lint"
   },
   "jest": {
     "preset": "jest-expo"
@@ -60,8 +57,7 @@
     "react-native-screens": "~4.1.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.13",
-    "react-native-webview": "13.12.2",
-    "react-scripts": "^5.0.1"
+    "react-native-webview": "13.12.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

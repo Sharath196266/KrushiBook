@@ -2,29 +2,28 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
+  state = { hasError: false, error: null };
 
   static getDerivedStateFromError(error) {
-    return { hasError: true };
+    return { hasError: true, error };
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error("Error Boundary Caught:", error, errorInfo);
+    console.log('Error caught:', error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
       return (
-        <View>
-          <Text>Something went wrong!</Text>
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>Something went wrong: {this.state.error.message}</Text>
         </View>
       );
     }
+
     return this.props.children;
   }
 }
+
 
 export default ErrorBoundary;

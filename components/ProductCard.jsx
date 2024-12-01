@@ -34,6 +34,7 @@ const ProductCard = ({
 }) => {
   
   const [loading,setLoading] = useState(false);
+  const [loadingW,setLoadingW] = useState(false);
 
   useEffect(() => {
     
@@ -61,13 +62,21 @@ const ProductCard = ({
       console.warn(err);
     }
   };
+  const handleWhatsAppPress = () => {
+    setLoadingW(true); 
+    setTimeout(() => {
+      onWhatsApp(); 
+      setLoadingW(false); 
+    }, 2000);
+  };
   
   const onWhatsApp = async () => {
     setLoading(true);
     try {
       const phoneNumber = item?.user?.phoneNumber;
-      const message = 'Hello, I am interested in buying this product.';
-      const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+      const message = 'Hello '+`${item?.user?.name}`+', I am interested in buying this product '+`${item?.name}`+" of price "+`${item?.price}`;
+      const url =  `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
 
       const canOpen = await Linking.canOpenURL(url);
       if (canOpen) {
@@ -82,7 +91,7 @@ const ProductCard = ({
   };
 
   const onCall = async () => {
-    setLoading(true);
+    setLoadingW(true);
     requestPhonePermission();
     try {
       const phoneNumber = item?.user?.phoneNumber;
@@ -97,14 +106,14 @@ const ProductCard = ({
     } catch (error) {
       console.error('Error during call redirection:', error);
     }
-    setLoading(false);
+    setLoadingW(false);
   };
 
   const onShare = async () => {
     try {
       setLoading(true);
-  
-      const content = { message: item?.body };
+      const msg = `${item?.name}`+" of price "+`${item?.price}`+" from "+`${item?.user?.name}`+" "+`${item?.user?.phoneNumber}`+","+`${item?.user?.address}`;
+      const content = { message: msg };
       if (item?.file) {
         const fileUrl = getSupabaseFileUrl(item?.file).uri;
   
@@ -278,11 +287,11 @@ const ProductCard = ({
         {showView && <TouchableOpacity onPress={openProductDetails}>
         <Text style={{fontSize:hp(2)}} >view</Text></TouchableOpacity>}
             {
-              loading?(
+              loadingW?(
                 <Loading size="small"/>
               ):(
                 <TouchableOpacity >
-              <Button buttonStyle={{width:wp(12),height:28,fontSize:23}} title={'Buy'} loading={loading} onpress={onWhatsApp}/>
+              <Button buttonStyle={{width:wp(12),height:28,fontSize:23}} title={'Buy'} loading={loadingW} onpress={handleWhatsAppPress}/>
             </TouchableOpacity>
               )
             } 

@@ -12,6 +12,7 @@ import { showAlert } from '../../utilities/showAlert';
 
 const doctor = () => {
   const [loading, setLoading] = useState(true);
+  const [loadingW, setLoadingW] = useState(true);
   const [weatherData, setWeatherData] = useState(null);
   const [error, setError] = useState(null);
   const [location, setLocation] = useState(null); // Store device location
@@ -96,7 +97,8 @@ const doctor = () => {
   };
 
   const handleChatSubmit = async () => {
-    setLoading(true);
+
+    setLoadingW(true);
 
     try {
       const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -121,7 +123,8 @@ const doctor = () => {
       console.error("Error in Generative AI request:", error);
       setBotResponse("Failed to get response from the AI.");
     } finally {
-      setLoading(false);
+
+      setLoadingW(false);
     }
 };
 
@@ -153,12 +156,13 @@ const doctor = () => {
             />
 
             {/* Button to submit user input and get response */}
+            
             <TouchableOpacity onPress={handleChatSubmit} style={styles.submitButton}>
               <Text style={styles.submitButtonText}>Get Solution</Text>
             </TouchableOpacity>
 
             {/* Display the bot response */}
-            {loading ? (
+            { userInput && loadingW ? (
               <ActivityIndicator size="large" color={theme.colors.primary} />
             ) : (
               botResponse && <Text style={styles.botResponse}>{botResponse}</Text>

@@ -49,10 +49,7 @@ const GovtServices = () => {
       const response = await fetch(API_URL);
       const data = await response.json();
       if (data && data.records) {
-        // Add Karnataka explicitly to the states list
         const uniqueStates = [...new Set(data.records.map((item) => item.state))];
-  
-        // Add Karnataka to the list if it's not already there
         if (!uniqueStates.includes("Karnataka")) {
           uniqueStates.push("Karnataka");
         }
@@ -76,7 +73,7 @@ const GovtServices = () => {
     setLoading(true);
     let allData = [];
     let offset = 0;
-    const limit = 100; // Fetch in batches of 1000 records
+    const limit = 1000; // Fetch in batches of 1000 records
     
     try {
       while (true) {
@@ -109,16 +106,12 @@ const GovtServices = () => {
   useEffect(() => {
     fetchInitialData();
   }, []);
-
-  useEffect(() => {
-    if (selectedState && selectedCommodity) fetchMarketData();
-  }, [selectedState, selectedCommodity]);
-
+  
   const currentPrice = priceData.length > 0 ? priceData[0].modal_price : "N/A";
   const currentDate = priceData.length > 0 ? priceData[0].arrival_date : "N/A";
 
   return (
-    <ErrorBoundary>
+    <ErrorBoundary >
     <ScreenWrapper>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backButtonText}>← Back</Text>
@@ -170,15 +163,15 @@ const GovtServices = () => {
               </Text>
             </TouchableOpacity>
 
-            {priceData.length > 0 && (
+            {priceData.length > 0 ? (
               <>
                 <Text style={styles.currentPriceText}>Current Price: ₹{currentPrice}</Text>
                 <Text style={styles.currentPriceText}>Date: {currentDate}</Text>
-                
+
                 <Text style={styles.title}>Price Trend</Text>
                 <LineChart
                   data={{
-                    labels: priceData.map(() => ''), // Hide the dates under X-axis
+                    labels: priceData.length > 0 ? priceData.map(() => '') : [],
                     datasets: [
                       {
                         data: priceData.map((item) => parseFloat(item.modal_price) || 0),
@@ -207,7 +200,10 @@ const GovtServices = () => {
                   style={styles.chart}
                 />
               </>
+            ) : (
+              <Text style={styles.currentPriceText}>No data available to render the chart.</Text>
             )}
+
 
             <Text style={styles.title}>Govt Websites</Text>
             {govtWebsites.map((site, index) => (

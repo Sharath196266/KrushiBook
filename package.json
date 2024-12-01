@@ -1,6 +1,5 @@
 {
   "name": "krushibook",
-  "homepage": "https://Sharath196266.github.io/krushibook",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {

@@ -1,10 +1,9 @@
 
 ---
 
-# **Welcome to KrishiBook 👋**
+# **Welcome to KrishiBook 👋**  
 
 **KrishiBook** - *Connect, Learn, Grow.*  
-
 A social media platform designed exclusively for farmers to empower their growth and success. Our mission is to foster a community where farmers can thrive by leveraging modern technology and shared knowledge.  
 
 ---
@@ -44,23 +43,19 @@ A social media platform designed exclusively for farmers to empower their growth
 ---
 
 ## **🚀 App Link**
-
-- ** Web:** [KrushiBook](https://sharath196266.github.io/KrushiBook/)
+- **Web:** [KrushiBook](https://sharath196266.github.io/KrushiBook/)
 - **📱 Android App:** [KrishiBook APK](https://drive.google.com/file/d/1GTkplPFErrXnMj4Bkv7oibaqoGvRzQ5Y/view?usp=share_link)
-
 
 ---
 
 ## **Get Started**
 
 1. **Install dependencies**  
-
    ```bash
    npm install
    ```
 
 2. **Start the app**  
-
    ```bash
    npx expo start
    ```
@@ -74,9 +69,7 @@ A social media platform designed exclusively for farmers to empower their growth
 ---
 
 ## **Create a Fresh Project**
-
 When you're ready to start from scratch, run:
-
 ```bash
 npm run reset-project
 ```
@@ -91,5 +84,4 @@ Explore more resources to enhance your development:
 - [Expo Documentation](https://docs.expo.dev/): Learn fundamentals and advanced topics.  
 - [Expo Router Guide](https://docs.expo.dev/router/introduction/): Understand file-based routing.  
 
----
-
+---  

@@ -43,10 +43,10 @@ A social media platform designed exclusively for farmers to empower their growth
 
 ---
 
-## **🚀 Deployment Links**
+## **🚀 App Link**
 
  
-- **📱 Android App:** [KrishiBook APK](https://expo.dev/accounts/sharath7hn/projects/KrushiBook/builds/41deb74e-ba20-468c-8136-ad8e53091f03)  
+- **📱 Android App:** [KrishiBook APK](https://drive.google.com/file/d/1GTkplPFErrXnMj4Bkv7oibaqoGvRzQ5Y/view?usp=share_link)
 
 
 ---

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 class ErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
@@ -26,4 +26,25 @@ class ErrorBoundary extends React.Component {
 }
 
 
+
+
+const styles = StyleSheet.create({
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffdddd', // Light red background
+    padding: 20,
+    margin: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ff0000', // Red border
+  },
+  errorText: {
+    color: '#ff0000', // Red text color
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
 export default ErrorBoundary;

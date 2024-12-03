@@ -17,6 +17,9 @@ import { usePathname } from 'expo-router';
 import { showAlert } from '../utilities/showAlert';
 import { Linking } from 'react-native';
 import { PermissionsAndroid } from 'react-native';
+import {useAuth} from '../contexts/AuthContext'
+
+
 
 const ProductCard = ({
   item,
@@ -34,6 +37,11 @@ const ProductCard = ({
   
   const [loading,setLoading] = useState(false);
   const [loadingW,setLoadingW] = useState(false);
+  const {user,setAuth}=useAuth();
+  const isActive = (route) => {
+    const pathname = usePathname();
+    return pathname === route;
+  };
 
   useEffect(() => {
     
@@ -43,9 +51,15 @@ const ProductCard = ({
     if (!showMoreIcon) return null;
     router.push({ pathname: 'productDetails', params: { productId: item?.id } });
   };
+
   const openProfile = () => {
+    if(item?.user?.id === user?.id){
+      router.push("/profile")
+    }else{
     router.push({ pathname: 'profileOthers', params: { profileId: item?.user?.id } });
+    }
   };
+
   const requestPhonePermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -76,7 +90,7 @@ const ProductCard = ({
     setLoadingW(true);
     try {
       const phoneNumber = item?.user?.phoneNumber;
-      const message = 'Hello '+`${item?.user?.name}`+',I am interested in buying this product '+`${item?.name}`+" of price "+`${item?.price}`;
+      const message = 'Hello '+`${item?.user?.name}`+',I am interested in buying this product '+`${item?.name}`+" of price "+`${item?.price}`+' '+`${item?.details}`;
       const url =  `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
 
@@ -114,7 +128,7 @@ const ProductCard = ({
   const onShare = async () => {
     try {
       setLoading(true);
-      const msg = `${item?.name}`+" of price "+`${item?.price}`+" from "+`${item?.user?.name}`+" "+`${item?.user?.phoneNumber}`+","+`${item?.user?.address}`;
+      const msg = "Look out this product from KrushiBook\n"+`${item?.name}`+" of price "+`${item?.price}`+" \nSelling "+`${item?.user?.name}`+" "+`${item?.user?.phoneNumber}`+","+`${item?.user?.address}`;
       const content = { message: msg };
       if (item?.file) {
         const fileUrl = getSupabaseFileUrl(item?.file).uri;
@@ -171,10 +185,6 @@ const ProductCard = ({
     }
   };
 
-  const isActive = (route) => {
-    const pathname = usePathname();
-    return pathname === route;
-  };
 
   const created_At = moment(item?.created_at).format('MMM D');
   const isContentNoFile = Platform.OS !== "web" ? styles.contentNoFile : styles.contentNoFileWeb;
@@ -297,7 +307,7 @@ const ProductCard = ({
               loadingW?(
                 <Loading size="small"/>
               ):(
-                <TouchableOpacity onPress={handleWhatsAppPress}>
+            <TouchableOpacity onPress={handleWhatsAppPress}>
                 <Icon name="whatsapp" color={theme.colors.primary} size={26}/>
             </TouchableOpacity>
               )

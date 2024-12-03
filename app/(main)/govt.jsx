@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   FlatList,
   Linking,
+  Platform,
+  ScrollView,
 } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { hp, wp } from '../../constants/helpers/common';
@@ -25,6 +27,8 @@ const GovtServices = () => {
   const [loading, setLoading] = useState(false);
   const [stateDropdownOpen, setStateDropdownOpen] = useState(false);
   const [commodityDropdownOpen, setCommodityDropdownOpen] = useState(false);
+  const [maxPrice, setMaxPrice] = useState(null);
+  const [district, setDistrict] = useState(null);
 
   const navigation = useNavigation();
 
@@ -66,7 +70,20 @@ const GovtServices = () => {
       Alert.alert("Error fetching initial data", error.message);
     }
   };
-  
+
+  const findMaxPriceAndDistrict = (data) => {
+    let max = -Infinity;
+    let district = '';
+
+    data.forEach((item) => {
+      if (item.max_price > max) {
+        max = item.max_price;
+        district = item.district;
+      }
+    });
+
+    return { maxPrice: max, district };
+  };
 
   // Function to fetch paginated market data
   const fetchMarketData = async () => {
@@ -106,12 +123,23 @@ const GovtServices = () => {
   useEffect(() => {
     fetchInitialData();
   }, []);
+  useEffect(() => {
+    if (priceData.length > 0) {
+      // Find max price and corresponding district
+      const { maxPrice, district } = findMaxPriceAndDistrict(priceData);
+      setMaxPrice(maxPrice);
+      setDistrict(district);
+    }
+  }, [priceData]);
+
   
   const currentPrice = priceData.length > 0 ? priceData[0].modal_price : "N/A";
+  const currentMaxPrice = priceData.length > 0 ? maxPrice : "N/A";
   const currentDate = priceData.length > 0 ? priceData[0].arrival_date : "N/A";
+  const currentDist = priceData.length > 0 ? district : "N/A";
 
   return (
-    <ErrorBoundary >
+    
     <ScreenWrapper>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backButtonText}>← Back</Text>
@@ -122,7 +150,7 @@ const GovtServices = () => {
           <View style={styles.container}>
             <Text style={styles.heading}>Govt Services</Text>
 
-            <Text style={styles.title}>Select State</Text>
+            <Text style={styles.title}>Marker Insights</Text>
             <View style={styles.dropdownRow}>
               <DropDownPicker
                 open={stateDropdownOpen}
@@ -165,10 +193,13 @@ const GovtServices = () => {
 
             {priceData.length > 0 ? (
               <>
-                <Text style={styles.currentPriceText}>Current Price: ₹{currentPrice}</Text>
+                <Text style={styles.currentPriceText}>Modal Price: ₹{currentPrice}</Text>
+                <Text style={styles.currentPriceText}>Max Price: ₹{currentMaxPrice}</Text>
                 <Text style={styles.currentPriceText}>Date: {currentDate}</Text>
-
+                <Text style={styles.currentPriceText}>Highest price at APMC: {currentDist}</Text>
+                
                 <Text style={styles.title}>Price Trend</Text>
+                {(Platform.OS !== "android") ?
                 <LineChart
                   data={{
                     labels: priceData.slice(-10).map(() => ''), // Creating empty strings for labels
@@ -200,8 +231,30 @@ const GovtServices = () => {
                     style: { borderRadius: 16 },
                   }}
                   style={styles.chart}
-                />
-
+                /> : 
+                <ScrollView horizontal={true}>
+                <View style={styles.tableContainer}>
+                  <Text style={styles.title}> Displaying Table, due to fail in generating chart</Text>
+                {/* Table Header */}
+                <View style={styles.row}>
+                  <Text style={styles.headerText}>City</Text>
+                  <Text style={styles.headerText}>Variety</Text>
+                  <Text style={styles.headerText}>Modal Price</Text>
+                  <Text style={styles.headerText}>Max Price</Text>
+                </View>
+          
+                {/* Table Data */}
+                {priceData.map((item, index) => (
+                  <View key={index} style={styles.row}>
+                    <Text style={styles.cellText}>{item.district}</Text>
+                    <Text style={styles.cellText}>{item.variety}</Text>
+                    <Text style={styles.cellText}>{item.modal_price}</Text>
+                    <Text style={styles.cellText}>{item.max_price}</Text>
+                  </View>
+                ))}
+              </View>
+              </ScrollView>
+                 }
               </>
             ) : (
               <Text style={styles.currentPriceText}>No data available to render the chart.</Text>
@@ -222,7 +275,7 @@ const GovtServices = () => {
         keyExtractor={(item, index) => `container-${index}`}
       />
     </ScreenWrapper>
-    </ErrorBoundary>
+    
   );
 };
 
@@ -233,6 +286,24 @@ const styles = StyleSheet.create({
   container: {
     padding: wp(4),
     backgroundColor: 'white',
+  },
+  tableContainer: {
+    padding: 10,
+    marginTop: 20,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  row: {
+    flexDirection: 'row',
+    paddingVertical: 10,
+    justifyContent: 'space-between',
+  },
+  headerText: {
+    fontWeight: 'bold',
+    width: '30%',
+  },
+  cellText: {
+    width: '30%',
   },
   backButton: {
     padding: 10,

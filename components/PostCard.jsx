@@ -15,6 +15,7 @@ import { Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import { usePathname } from 'expo-router';
 import { showAlert } from '../utilities/showAlert';
+import {useAuth} from '../contexts/AuthContext'
 import * as MediaLibrary from 'expo-media-library';
 
 const PostCard = ({
@@ -29,6 +30,7 @@ const PostCard = ({
 }) => {
   const [likes, setLikes] = useState([]);
   const [loading,setLoading] = useState(false);
+  const {user,setAuth}=useAuth();
 
   useEffect(() => {
     setLikes(item?.postLikes || []);
@@ -36,7 +38,10 @@ const PostCard = ({
 
   
   const openProfile = () => {
-    router.push({ pathname: 'profileOthers', params: { profileId: item?.user?.id } });
+    if(item?.user?.id === user?.id){
+      router.push("/profile")
+    }else{
+    router.push({ pathname: 'profileOthers', params: { profileId: item?.user?.id } });}
   };
 
   const openPostDetails = () => {
@@ -179,8 +184,9 @@ const PostCard = ({
         }
       >
       <View style={styles.header}>
+      <TouchableOpacity onPress={openProfile}>
         <View style={styles.userInfo}>
-          <TouchableOpacity onPress={openProfile}>
+          
           <Avatar
             size={hp(4.5)}
             uri={item?.user?.image}
@@ -190,8 +196,9 @@ const PostCard = ({
             <Text style={styles.userName}>{item?.user?.name}</Text>
             <Text style={styles.postTime}>{created_At}</Text>
           </View>
-          </TouchableOpacity>
+         
         </View>
+         </TouchableOpacity>
         {showMoreIcon && (
             <TouchableOpacity onPress={openPostDetails}>
               <Icon name="ellipsis-h" size={hp(3.4)} strokeWidth={3} color={theme.colors.text} />

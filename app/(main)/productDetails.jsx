@@ -47,7 +47,7 @@ const ProductDetails = () => {
     try {
       setLoading(true);
       const phoneNumber = item?.user?.phoneNumber;
-      const message = 'Hello, I am interested in buying this product.';
+      const message = 'Hello '+`${item?.user?.name}`+',I am interested in buying this product '+`${item?.name}`+" of price "+`${item?.price}`+' '+`${item?.details}`;
       const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
       const canOpen = await Linking.canOpenURL(url);
 

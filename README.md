@@ -25,7 +25,7 @@ A social media platform designed exclusively for farmers to empower their growth
 - **Idea, Design, and Lead:**  
   [Sharath H N](https://sharath196266.github.io/Sharath196266/)
 - **Team Members:**  
-  [Veeresh47](https://github.com/Veeresh47), [Darshan Kumar](https://github.com/Darshantalawar), [Varun Kumar]()  
+  [Veeresh47](https://github.com/Veeresh47), [Darshan Kumar](https://github.com/Darshantalawar), [Varun Kumar](https://github.com/Varunkalal2004)  
 
 ---
 

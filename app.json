@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "KrushiBook",
-    "slug": "KrushiBook",
+    "slug": "krushibook",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sharathgroot.krushibook"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +37,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "02a6d1de-f5a7-4882-9e35-415caaa2348a"
+      }
+    },
+    "owner": "sharathgroot"
   }
 }

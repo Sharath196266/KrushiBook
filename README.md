@@ -23,9 +23,9 @@ A social media platform designed exclusively for farmers to empower their growth
 
 ### **👥 Team "Mayura"**
 - **Idea, Design, and Lead:**  
-  Sharath196266  
+  [Sharath H N](https://sharath196266.github.io/Sharath196266/)
 - **Team Members:**  
-  Veeresh47, Darshan Kumar, Varun Kumar  
+  [Veeresh47](), [Darshan Kumar](https://github.com/Darshantalawar), [Varun Kumar]()  
 
 ---
 

@@ -79,7 +79,7 @@ const profileOthers = () => {
     }, [profileId]);
 
     if (loading) {
-        return <Loading />;
+        return ( <View style={{alignItems:'center', marginTop:hp(48)}}><Loading  /></View>);
     }
 
     return (

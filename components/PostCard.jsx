@@ -31,13 +31,15 @@ const PostCard = ({
   const [likes, setLikes] = useState([]);
   const [loading,setLoading] = useState(false);
   const {user,setAuth}=useAuth();
-  const isBigDisplay = wp('100%') >= 1024;
+  const isBigDisplay = wp('100%') >= 600;
 
   useEffect(() => {
     setLikes(item?.postLikes || []);
   }, [item]);
 
   
+    console.log("is Big ", isBigDisplay)
+
   const openProfile = () => {
     if(item?.user?.id === user?.id){
       router.push("/profile")
@@ -168,17 +170,17 @@ const PostCard = ({
   const liked = likes.some((like) => like.userId === currentUser?.id);
 
   const created_At = moment(item?.created_at).format('MMM D');
-  const isContentNoFile = (Platform.OS !== 'web' && !isBigDisplay) ? styles.contentNoFile : styles.contentNoFileWeb;
-  const isContentNoFilePLat = (Platform.OS !== 'web' && !isBigDisplay) ? styles.content : styles.contentNoFileWeb;
+  const isContentNoFile = ( !isBigDisplay) ? styles.contentNoFile : styles.contentNoFileWeb;
+  const isContentNoFilePLat = ( !isBigDisplay) ? styles.contentNoFile : styles.contentNoFileWeb;
   return (
       <View
         style={
           !isActive('/profile') ? (
-            (Platform.OS !== 'web' && !isBigDisplay)
+            (!isBigDisplay)
             ? [styles.container, hasShadow && styles.shadow] // iOS/Android styles
             : [styles.containerWeb, hasShadow && styles.shadow] // Web-specific styles
           ):(
-            (Platform.OS !== 'web' && !isBigDisplay)
+            (!isBigDisplay)
             ? [styles.containerProfile, hasShadow && styles.shadow] // iOS/Android styles
             : [styles.containerWebProfile, hasShadow && styles.shadow] // Web-specific styles
           )
@@ -233,16 +235,17 @@ const PostCard = ({
 
       {/* Post media and content */}
        
-      <View style={!isActive("/profile")? ((item?.file ? (styles.content):(isContentNoFilePLat))) : (item?.file ? (styles.content):(isContentNoFile))}>
+      <View style={!isActive("/profile") ? ((item?.file ? (styles.content):(isContentNoFilePLat))) : (item?.file ? (styles.content) : (isContentNoFile))}>
+
         <View style={styles.postBody}>
-          <Text style={(Platform.OS !== 'web' && !isBigDisplay)?([{margin:5,fontWeight:theme.fonts.text}]):(item?.file ? ([{margin:5,fontWeight:theme.fonts.text}]):([{margin:5,fontWeight:theme.fonts.textDark,fontSize:hp(3)}]))}>{item?.body}</Text>
+          <Text style={( !isBigDisplay)?([{margin:5,fontWeight:theme.fonts.text}]):(item?.file ? ([{margin:5,fontWeight:theme.fonts.text}]):([{margin:5,fontWeight:theme.fonts.textDark,fontSize:hp(3)}]))}>{item?.body}</Text>
           {item?.file && item?.file.includes('postImages') && (
             
             <Image source={getSupabaseFileUrl(item?.file)} transition={100} 
             style={
               !isActive('/profile')?
-              ((Platform.OS !== 'web' && !isBigDisplay)?[styles.postMedia]:[styles.postMediaWeb,{height:hp(60)}]
-            ): ((Platform.OS !== 'web' && !isBigDisplay)?[styles.postMediaProfile]:[styles.postMediaWeb,{height:hp(60)}])
+              (( !isBigDisplay)?[styles.postMedia]:[styles.postMediaWeb,{height:hp(60)}]
+            ): (( !isBigDisplay)?[styles.postMediaProfile]:[styles.postMediaWeb,{height:hp(60)}])
             } 
             contentFit="cover" />
           )}
@@ -250,7 +253,7 @@ const PostCard = ({
           {/* Post video */}
           {item?.file && item?.file.includes('postVideos') && (
             <Video
-              style={ (Platform.OS !== 'web' && !isBigDisplay)?[styles.postMedia, { height: hp(30) }]:[styles.postMediaWeb,{height:hp(60)}]}
+              style={ ( !isBigDisplay)?[styles.postMedia, { height: hp(30) }]:[styles.postMediaWeb,{height:hp(60)}]}
               source={getSupabaseFileUrl(item?.file)}
               useNativeControls
               resizeMode="cover"

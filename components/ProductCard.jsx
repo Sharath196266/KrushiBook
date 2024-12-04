@@ -40,7 +40,8 @@ const ProductCard = ({
   const [loadingW,setLoadingW] = useState(false);
   const {user,setAuth}=useAuth();
   const screenWidth = Dimensions.get('window').width;
-  const isBigDisplay = screenWidth >= 1024;       
+  const isBigDisplay = screenWidth >= 600;  
+  console.log("is big pro",isBigDisplay)     
   const isActive = (route) => {
     const pathname = usePathname();
     return pathname === route;
@@ -190,8 +191,8 @@ const ProductCard = ({
 
 
   const created_At = moment(item?.created_at).format('MMM D');
-  const isContentNoFile = Platform.OS !== "web" && !isBigDisplay ? styles.contentNoFile : styles.contentNoFileWeb;
-  const isContentNoFilePLat = Platform.OS !== "web" && !isBigDisplay ? styles.content : styles.contentNoFileWeb;
+  const isContentNoFile = (!isBigDisplay) ? styles.contentNoFile : styles.contentNoFileWeb;
+  const isContentNoFilePLat = !isBigDisplay ? styles.content : styles.contentNoFileWeb;
   return (
       <View
         style={
@@ -246,7 +247,7 @@ const ProductCard = ({
           {item?.file && item?.file.includes('productImages') && (
             <Image source={getSupabaseFileUrl(item?.file)} transition={100} 
             style={
-               ((Platform.OS !== 'web' && !isBigDisplay) && !isBigDisplay ?[styles.postMediaProfile]:[styles.postMediaWeb,{height:hp(60)}])
+               (( !isBigDisplay) ?[styles.postMediaProfile]:[styles.postMediaWeb,{height:hp(60)}])
             } 
             contentFit="cover" />
           )}
@@ -254,7 +255,7 @@ const ProductCard = ({
           {/* video */}
           {item?.file && item?.file.includes('productVideos') && (
             <Video
-              style={ Platform.OS !== 'web' && !isBigDisplay ?[styles.postMedia, { height: hp(30) }]:[styles.postMediaWeb,{height:hp(60)}]}
+              style={ !isBigDisplay ?[styles.postMedia, { height: hp(30) }]:[styles.postMediaWeb,{height:hp(60)}]}
               source={getSupabaseFileUrl(item?.file)}
               useNativeControls
               resizeMode="cover"

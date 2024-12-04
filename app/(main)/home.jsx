@@ -1,4 +1,4 @@
-import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Dimensions, FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ScreenWrapper from '../../components/ScreenWrapper'
 import { useRouter } from 'expo-router'
@@ -27,6 +27,9 @@ const home = () => {
     const [hasMore, setHasMore]=useState(true);
     const [posts,setPosts]=useState([]);
     const [notificationCount,setNotificationCount]=useState(0);
+    const screenWidth = Dimensions.get('window').width;
+    const isBigDisplay = screenWidth >= 600; 
+    
     const isActive = (route) => {
       const pathname = usePathname();
       return pathname === route;
@@ -211,11 +214,11 @@ const home = () => {
             <Loading/>
           </View>
         ):(
-          <View style={Platform.OS != 'web'?{marginVertical:20,paddingBottom:hp(8)}:{margin:20,padding:hp(8)}}>
+          <View style={(Platform.OS !== 'web' && !isBigDisplay)?{marginVertical:20,paddingBottom:hp(8)}:{margin:20,padding:hp(8)}}>
           <Text style={styles.noPosts}>No More posts...</Text>
           </View>
         )}
-        numColumns={Platform.OS === 'web' ? 2 : 1} // 2 posts per row on Web
+        numColumns={!isBigDisplay ? 1 : 2} 
         />
       
           <View style={styles.footer}>
@@ -272,7 +275,7 @@ const styles = StyleSheet.create({
     height:hp(4.3),
     width:hp(4.3),
     borderRadius:theme.radius.sm,
-    borderCurve:c='coninueous',
+    borderCurve:'coninueous',
     borderColor:theme.colors.gray,
     borderWidth:3,
   },

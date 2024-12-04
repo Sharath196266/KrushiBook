@@ -20,6 +20,7 @@ const sharing = () => {
   const [products,setProducts]=useState([]);
   const {user,setAuth}=useAuth();
   const [hasMore, setHasMore]=useState(true);
+  const isBigDisplay = wp('100%') >= 600;
   const isActive = (route) => {
     const pathname = usePathname();
     return pathname === route;

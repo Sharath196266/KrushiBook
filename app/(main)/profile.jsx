@@ -24,6 +24,7 @@ const profile = () => {
     const router=useRouter();
     const [hasMore, setHasMore]=useState(true);
     const [posts,setPosts]=useState([]);
+    const isBigDisplay = wp('100%') >= 600;
 
         const handleNewCommentEvent = async (payload) => {
         if (payload.eventType === "INSERT" || payload.eventType === "DELETE") {

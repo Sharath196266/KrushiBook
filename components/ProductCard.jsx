@@ -17,7 +17,8 @@ import { usePathname } from 'expo-router';
 import { showAlert } from '../utilities/showAlert';
 import { Linking } from 'react-native';
 import { PermissionsAndroid } from 'react-native';
-import {useAuth} from '../contexts/AuthContext'
+import {useAuth} from '../contexts/AuthContext';
+import { Dimensions } from 'react-native';
 
 
 
@@ -38,6 +39,8 @@ const ProductCard = ({
   const [loading,setLoading] = useState(false);
   const [loadingW,setLoadingW] = useState(false);
   const {user,setAuth}=useAuth();
+  const screenWidth = Dimensions.get('window').width;
+  const isBigDisplay = screenWidth >= 1024;       
   const isActive = (route) => {
     const pathname = usePathname();
     return pathname === route;
@@ -187,13 +190,13 @@ const ProductCard = ({
 
 
   const created_At = moment(item?.created_at).format('MMM D');
-  const isContentNoFile = Platform.OS !== "web" ? styles.contentNoFile : styles.contentNoFileWeb;
-  const isContentNoFilePLat = Platform.OS !== "web" ? styles.content : styles.contentNoFileWeb;
+  const isContentNoFile = Platform.OS !== "web" && !isBigDisplay ? styles.contentNoFile : styles.contentNoFileWeb;
+  const isContentNoFilePLat = Platform.OS !== "web" && !isBigDisplay ? styles.content : styles.contentNoFileWeb;
   return (
       <View
         style={
           
-            Platform.OS !== 'web'
+            (Platform.OS !== 'web' && !isBigDisplay)
             ? [styles.containerProfile, hasShadow && styles.shadow] // iOS/Android styles
             : [styles.containerWebProfile, hasShadow && styles.shadow] // Web-specific styles
           
@@ -243,7 +246,7 @@ const ProductCard = ({
           {item?.file && item?.file.includes('productImages') && (
             <Image source={getSupabaseFileUrl(item?.file)} transition={100} 
             style={
-               (Platform.OS !== 'web'?[styles.postMediaProfile]:[styles.postMediaWeb,{height:hp(60)}])
+               ((Platform.OS !== 'web' && !isBigDisplay) && !isBigDisplay ?[styles.postMediaProfile]:[styles.postMediaWeb,{height:hp(60)}])
             } 
             contentFit="cover" />
           )}
@@ -251,7 +254,7 @@ const ProductCard = ({
           {/* video */}
           {item?.file && item?.file.includes('productVideos') && (
             <Video
-              style={ Platform.OS !== 'web'?[styles.postMedia, { height: hp(30) }]:[styles.postMediaWeb,{height:hp(60)}]}
+              style={ Platform.OS !== 'web' && !isBigDisplay ?[styles.postMedia, { height: hp(30) }]:[styles.postMediaWeb,{height:hp(60)}]}
               source={getSupabaseFileUrl(item?.file)}
               useNativeControls
               resizeMode="cover"

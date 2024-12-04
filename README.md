@@ -43,7 +43,7 @@ A social media platform designed exclusively for farmers to empower their growth
 ---
 
 ## **🚀 App Link**
-- **Web:** [KrushiBook](krushi-book.vercel.app)
+- **Web:** [KrushiBook](https://krushi-book.vercel.app)
 - **📱 Android App:** [KrishiBook APK](https://drive.google.com/file/d/1GTkplPFErrXnMj4Bkv7oibaqoGvRzQ5Y/view?usp=share_link)
 
 ---

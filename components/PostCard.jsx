@@ -171,7 +171,7 @@ const PostCard = ({
 
   const created_At = moment(item?.created_at).format('MMM D');
   const isContentNoFile = ( !isBigDisplay) ? styles.contentNoFile : styles.contentNoFileWeb;
-  const isContentNoFilePLat = ( !isBigDisplay) ? styles.contentNoFile : styles.contentNoFileWeb;
+  const isContentNoFilePLat = ( !isBigDisplay) ? styles.content : styles.contentNoFileWeb;
   return (
       <View
         style={

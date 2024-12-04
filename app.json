@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "/KrushiBook/",
+    "scheme": "KrushiBook",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -20,9 +20,11 @@
     },
     "web": {
       "bundler": "metro",
+      "favicon": "./assets/images/favicon.png",
       "output": "export",
-      "favicon": "./assets/images/favicon.png"
+      "publicPath": "/"
     },
+
     "plugins": [
       "expo-router",
       [
